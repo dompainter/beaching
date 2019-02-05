@@ -1,32 +1,91 @@
+body {
+  color: #7f92a8;
+  font-family: 'Exo 2', sans-serif;
+  height: 100%;
+}
+
+html, #root {
+  margin: 0;
+  height: 100%;
+}
+
 .App {
+  background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  min-height: 100%;
+}
+
+h1 {
   text-align: center;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+h1, form {
+  margin: auto;
+  text-transform: lowercase;
+  max-width: 500px;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  display: flex;
+  padding: 30px;
+  font-size: 3em;
 }
 
-.App-link {
-  color: #61dafb;
+.image-grid {
+  padding: 30px;
+  max-width: 1250px;
+  margin: auto;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.image-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  height: 100%;
+}
+
+.grid-column img {
+  width: 300px;
+  height: 200px;
+}
+
+.grid-column {
+  padding: 5px;
+}
+
+.search-input {
+  font-size: 24px;
+  background: none;
+  width: 100%;
+  max-width: 350px; 
+  height: 40px;
+  border: none;
+  outline: none;
+  font-weight: bold;
+  color: #7f92a8;
+  font-family: 'Roboto Slab', serif;
+}
+
+.search-button {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #a2a89a;
+}
+
+
+/* MEDIA QUERIES */
+
+@media screen and (max-width: 768px) {
+  form {
+    max-width: 300px;
   }
-  to {
-    transform: rotate(360deg);
+}
+
+@media screen and (max-width: 320px) {
+  h1 {
+    max-width: 300px;
+  }
+
+  .grid-column img {
+    width: 300px;
   }
 }
