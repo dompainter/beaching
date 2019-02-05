@@ -1,6 +1,9 @@
 ## About
 Image search engine using Unsplash API. Created using React and bootstrapped by Create React App.
 
+Hosted on netlify:
+https://unsplash-search.netlify.com/
+
 ## Available Scripts
 
 In the project directory, you can run:
