@@ -1,65 +1,99 @@
 import React, { Component } from 'react';
 import './App.css';
-import Row from './components/Row'
+import beaches from './lib/beaches.json'
+import WeatherHub from './components/WeatherHub'
+import Navigation from './components/Navigation'
 
 class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      loading: false,
-      searchTerm: '',
-      imageResults: []
+      beach: beaches[0],
+      weather: {}
     }
-    
-    this.onSubmit = this.onSubmit.bind(this)
-    this.onChange = this.onChange.bind(this)
+    this.currentConditionsUrl = 'http://dataservice.accuweather.com/currentconditions/v1/'
+    this.dailyForecastUrl = 'http://dataservice.accuweather.com/forecasts/v1/daily/1day/'
+    this.apiKey = 'YwfJx1C71cfcG7lWmtiTbOfAquqydhH3'
+
+    this.handleBeachClick = this.handleBeachClick.bind(this)
   }
-  
-  fetchImages(term) {
-    const url = `https://api.unsplash.com/search/photos?page=1&per_page=9&orientation=landscape&query=${term}`
-    fetch(url, {
-      headers: {
-        'Authorization': 'Client-ID c299a12526acce9657db9772af95d098a009391971cedf472f85009e73d5a1b3'
-      }
-    })
+
+  componentWillMount() {
+    this.updateWeather()
+  }
+
+  getUrl(apiUrl, key) {
+    return `${apiUrl}${key}?apikey=${this.apiKey}&details=true`
+  }
+
+  updateWeather() {
+    this.getWeather()
+    this.getDayForecast()
+  }
+
+  getDayForecast() {
+    const beach = this.state.beach
+    const url = this.getUrl(this.dailyForecastUrl, beach.key)
+    
+    fetch(url)
       .then(res => res.json())
       .then(data => {
-        const thumbnails = data.results.map(res => res.urls.small)
-        this.setState({ imageResults: thumbnails })
+        const forecast = data.DailyForecasts[0]
+        const day = forecast.Day
+        const weatherObj = {
+          hoursOfSun: forecast.HoursOfSun,
+          rainProbability: day.RainProbability,
+          hoursOfRain: day.HoursOfRain,
+          cloudCover: day.CloudCover
+        }
+
+        this.setState({
+          weather: {...this.state.weather, ...weatherObj }
+        })
+      })
+      .catch(error => console.log('An error occurred during fetch', error))
+
+  }
+
+  handleBeachClick(beach) {
+    this.setState({
+      beach: beach
+    }, () => this.updateWeather())
+  }
+
+  getWeather() {
+    const beach = this.state.beach
+    const url = this.getUrl(this.currentConditionsUrl, beach.key)
+
+    fetch(url)
+      .then(res => res.json())
+      .then(data => {
+        const currentWeather = data[0]
+        const realFeel = currentWeather.RealFeelTemperature.Metric.Value
+        const weatherObj = {
+          uvIndex: currentWeather.UVIndex,
+          uvIndexText: currentWeather.UVIndexText,
+          weatherText: currentWeather.WeatherText,
+          realFeel,
+          link: currentWeather.Link,
+          isRaining: currentWeather.HasPrecipitation,
+          weatherIcon: currentWeather.WeatherIcon
+        }
+        this.setState({
+          weather: {...this.state.weather, ...weatherObj}
+        })
       })
       .catch(error => console.log('An error occurred during fetch', error))
   }
   
-  onSubmit(e) {
-    e.preventDefault()
-    this.fetchImages(this.state.searchTerm)
-  }
-  
-  onChange(e) {
-    this.setState({
-      searchTerm: e.target.value
-    })
-  }
-
   render() {
     return (
       <div className="App">
-        <h1>Unsplash Tag Search</h1>
-        <form onSubmit={this.onSubmit}>
-          <input type="search" placeholder="search" className="search-input" onChange={this.onChange} />
-          <button type="submit" className="search-button"><i className="fas fa-search"></i></button>
-        </form>
-        <div className="image-grid">
-          <div className="image-row">
-            <Row images={this.state.imageResults.slice(0, 3)} />
-          </div>
-          <div className="image-row">
-            <Row images={this.state.imageResults.slice(3, 6)} />
-          </div>
-          <div className="image-row">
-            <Row images={this.state.imageResults.slice(6, 9)} />
-          </div>
-        </div>
+        <WeatherHub beach={this.state.beach} weather={this.state.weather} />
+        <Navigation activeBeach={this.state.beach.name} beaches={beaches} handleBeachClick={this.handleBeachClick} />
+        <a href={this.state.weather.link} className="external-link" target="blank">
+          <i className="fas fa-external-link-square-alt"></i>
+        </a>
       </div>
     );
   }

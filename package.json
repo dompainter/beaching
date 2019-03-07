@@ -1,8 +1,9 @@
 {
-  "name": "unsplash-search",
+  "name": "beaching",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "classnames": "^2.2.6",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-scripts": "2.1.3"
@@ -26,5 +27,13 @@
   "main": "index.js",
   "devDependencies": {},
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dompainter/beaching.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dompainter/beaching/issues"
+  },
+  "homepage": "https://github.com/dompainter/beaching#readme"
 }

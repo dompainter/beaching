@@ -1,0 +1,21 @@
+[ {
+    "name": "Bondi",
+    "key": "12608",
+    "font": "'Srisakdi', cursive"
+}, {
+    "name": "Tama",
+    "key": "12564",
+    "font": "'Pacifico', cursive"
+}, {
+    "name": "Bronte",
+    "key": "12609",
+    "font": "'Righteous', cursive"
+}, {
+    "name": "Coogee",
+    "key": "13624",
+    "font": "'Kaushan Script', cursive"
+}, {
+    "name": "Manly",
+    "key": "12415",
+    "font": "'Permanent Marker', cursive"
+} ]
