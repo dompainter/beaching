@@ -1,4 +1,9 @@
 ## About
+Sydney Beach Weather app, working with AccuWeather API. Created using React and bootstrapped by Create React App.
+
+## Available Scripts
+
+In the project directory, you can run:
 
 ### `npm start`
 
